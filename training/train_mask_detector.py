@@ -1,9 +1,9 @@
 # USAGE
 # python train_mask_detector.py --dataset dataset
 
-from tensorflow.keras.preprocessing.image import ImageDataGenerator 
-from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.layers import AveragePooling2D
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.applications import MobileNetV2 
+from tensorflow.keras.layers import AveragePooling2D 
 from tensorflow.keras.layers import Dropout 
 from tensorflow.keras.layers import Flatten 
 from tensorflow.keras.layers import Dense 
@@ -11,15 +11,15 @@ from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model 
 from tensorflow.keras.optimizers import Adam 
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input 
-from tensorflow.keras.preprocessing.image import img_to_array 
-from tensorflow.keras.preprocessing.image import load_img 
-from tensorflow.keras.utils import to_categorical 
-from sklearn.preprocessing import LabelBinarizer 
-from sklearn.model_selection import train_test_split 
-from sklearn.metrics import classification_report
-from imutils import paths 
-import matplotlib.pyplot as plt 
-import numpy as np 
+from tensorflow.keras.preprocessing.image import img_to_array # type: ignore
+from tensorflow.keras.preprocessing.image import load_img # type: ignore
+from tensorflow.keras.utils import to_categorical # type: ignore
+from sklearn.preprocessing import LabelBinarizer # type: ignore
+from sklearn.model_selection import train_test_split # type: ignore
+from sklearn.metrics import classification_report # type: ignore
+from imutils import paths # type: ignore
+import matplotlib.pyplot as plt # type: ignore
+import numpy as np # type: ignore
 import argparse
 import os
 
