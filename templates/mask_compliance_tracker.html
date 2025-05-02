@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Mask Compliance Report | Mask Detection{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <div class="intro">
+    <h1>Mask Compliance Report</h1>
+    <p class="tagline">
+      Visualize your mask compliance statistics in real-time.<br>
+      Select Daily, Weekly, or Monthly to explore compliance trends.
+    </p>
+
+    <label for="timeRange">View Report:</label>
+    <select id="timeRange">
+        <option value="daily" selected>Today</option>
+        <option value="weekly">This Week</option>
+        <option value="monthly">This Month</option>
+    </select>
+
+    <canvas id="complianceChart"></canvas>
+
+    <a href="{{ url_for('dashboard') }}" class="back-btn" style="margin-top: 20px;">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('complianceChart').getContext('2d');
+
+    let complianceChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Compliant', 'Violation'],
+            datasets: [{
+                label: 'Count',
+                data: [0, 0],
+                backgroundColor: ['#4CAF50', '#F44336'],
+                borderRadius: 10
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+
+    function fetchAndUpdate(range = 'daily') {
+        fetch(`/get-compliance-data?range=${range}`)
+            .then(res => res.json())
+            .then(data => {
+                complianceChart.data.datasets[0].data = [data.compliant, data.violation];
+                complianceChart.update();
+            });
+    }
+
+    document.getElementById('timeRange').addEventListener('change', function () {
+        fetchAndUpdate(this.value);
+    });
+
+    fetchAndUpdate('daily'); // Load default data
+</script>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    background-image: url('{{ url_for("static", filename="images/bg-login.png") }}');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .dashboard-container {
+    text-align: center;
+    padding: 80px 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    margin: 60px auto;
+    max-width: 700px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .intro h1 {
+    color: #5b13b9;
+    font-size: 40px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .tagline {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 520;
+    color: #444;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  select {
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #5b13b9;
+    margin-bottom: 20px;
+    color: #5b13b9;
+  }
+
+  canvas {
+    max-width: 600px;
+    margin: auto;
+    margin-top: 20px;
+  }
+
+  .back-btn {
+    display: inline-block;
+    margin-top: 18px;
+    text-decoration: none;
+    color: #5b13b9;
+    font-weight: 600;
+    font-size: 15px;
+    border: 2px solid #5b13b9;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .back-btn:hover {
+    background-color: #5b13b9;
+    color: white;
+  }
+</style>
+{% endblock %}

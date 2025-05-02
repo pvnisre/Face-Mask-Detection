@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Detection Result{% endblock %}
+
+{% block content %}
+<div class="result-container">
+  <h1 style="color: #5b13b9;">Detection Result</h1>
+
+
+    {% if output_image %}
+    <div class="image-preview">
+        <img src="{{ url_for('static', filename=output_image.split('static/')[-1]) }}" alt="Detection Result" class="result-image">
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('image_detection') }}" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</div>
+
+<style>
+body {
+    background: url("{{ url_for('static', filename='images/bg-login.png') }}") no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.result-container {
+    text-align: center;
+    padding: 30px 20px;
+    max-width: 600px;
+    margin: 60px auto;
+    background-color: rgba(255,255,255,0.6);
+    border-radius: 16px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+.image-preview {
+    margin-top: 20px;
+}
+
+.result-image {
+    max-width: 100%;
+    border-radius: 12px;
+    border: 4px solid #5b13b9;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #5b13b9;
+    border: 2px solid #5b13b9;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #5b13b9;
+    color: white;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Image Detection | Mask Detection{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <div class="intro">
+    <h1>Image Detection</h1>
+    <p class="tagline">
+      Upload an image to detect if the person is wearing a mask properly.<br>
+      Fast, accurate, and secure detection.
+    </p>
+
+    <form method="POST" action="{{ url_for('run_image_detection') }}" enctype="multipart/form-data">
+      <select name="model_choice" required style="margin-bottom: 20px; padding: 10px; font-size: 15px; border-radius: 8px; border: 2px solid #5b13b9; color: #5b13b9;">
+        <option value="" disabled selected>Select Model</option>
+        <option value="resnet">ResNet</option>
+        <option value="mobilenet">MobileNet</option>
+      </select>
+      <input type="file" name="image" accept="image/*" required style="margin-bottom: 20px;">
+      <br>
+      <button type="submit" class="detect-btn">
+        <i class="fas fa-image"></i> Run Detection
+      </button>
+      <a href="{{ url_for('dashboard') }}" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </form>
+  </div>
+</div>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    background-image: url('{{ url_for("static", filename="images/bg-login.png") }}');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .dashboard-container {
+    text-align: center;
+    padding: 80px 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    margin: 60px auto;
+    max-width: 600px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .intro h1 {
+    color: #5b13b9;
+    font-size: 40px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .tagline {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 520;
+    color: #444;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  input[type="file"] {
+    padding: 10px;
+    border: 2px dashed #5b13b9;
+    background-color: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    font-size: 15px;
+  }
+
+  .detect-btn {
+    background-color: #5b13b9;
+    color: white;
+    padding: 13px 25px;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+  }
+
+  .detect-btn:hover {
+    background-color: #7d2ae8;
+  }
+
+  .back-btn {
+    display: inline-block;
+    margin-top: 18px;
+    text-decoration: none;
+    color: #5b13b9;
+    font-weight: 600;
+    font-size: 15px;
+    border: 2px solid #5b13b9;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .back-btn:hover {
+    background-color: #5b13b9;
+    color: white;
+  }
+</style>
+{% endblock %}
+

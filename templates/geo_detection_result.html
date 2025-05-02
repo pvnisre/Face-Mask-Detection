@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="result-container">
+    <h2 class="safe-heading"> 📍 Detection Result</h2>
+
+    {% if image %}
+        <img src="{{ url_for('static', filename=image) }}" alt="Detection Result: {{ results[0].label if results else 'No Mask Detected' }}" class="alert-image">
+    {% else %}
+        <p>No image available.</p>
+    {% endif %}
+
+    <div class="geo-info">
+        <p><strong>Latitude:</strong> {{ latitude }}</p>
+        <p><strong>Longitude:</strong> {{ longitude }}</p>
+
+        {% if results %}
+            {% for res in results %}
+                <div class="detection-result">
+                    <p><strong>Label:</strong> {{ res.label }}</p>
+                    <p><strong>Confidence:</strong> {{ (res.confidence * 100) | round(2) }}%</p>
+                    <p><strong>Bounding Box:</strong> [{{ res.box[0] }}, {{ res.box[1] }}] to [{{ res.box[2] }}, {{ res.box[3] }}]</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No results detected.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('show_heatmap') }}" class="send-btn">🗺️ Show Heatmap</a>
+    <a href="{{ url_for('dashboard') }}" class="btn-back">← Back to Dashboard</a>
+</div>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url('{{ url_for("static", filename="images/bg-login.png") }}');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .result-container {
+    text-align: center;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    max-width: 600px;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  .safe-heading {
+    font-size: 26px;
+    color: #5b13b9;
+    margin-bottom: 15px;
+  }
+
+  .alert-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .geo-info p {
+    margin: 8px 0;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .detection-result p {
+    margin: 6px 0;
+    font-size: 14px;
+    color: #444;
+  }
+
+  .send-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #25D366;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+  }
+
+  .send-btn:hover {
+    background-color: #04ae51;
+  }
+
+  .btn-back {
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #5b13b9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-back:hover {
+    background-color: #7d2ae8;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}

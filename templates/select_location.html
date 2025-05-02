@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="result-container">
+    <h2 class="safe-heading">📍 Select Your Location</h2>
+
+    <form method="POST" action="{{ url_for('detect_mask') }}">
+      <select class="form-control" id="locations" name="location" style="width: 100%">
+        <option value="Home">Home</option>
+        <option value="Zudio">Zudio</option>
+        <option value="SV University">SV University</option>
+        <option value="CMR Shopping">CMR Shopping</option>
+        <option value="Khazana Jewellery">Khazana Jewellery</option>
+        <option value="Park">Park</option>
+        <option value="SVIMS Hospital">SVIMS Hospital</option>
+        <option value="DMart">DMart</option>
+    </select>
+          
+        <br><br>
+        <button type="submit" class="send-btn">📸 Capture & Submit</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('dashboard') }}" class="back-btn"> 
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+</div>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url('{{ url_for("static", filename="images/bg-login.png") }}');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .result-container {
+    text-align: center;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    max-width: 600px;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  .safe-heading {
+    font-size: 26px;
+    color: #5b13b9;
+    margin-bottom: 20px;
+  }
+
+  select {
+    font-size: 16px;
+    padding: 8px 12px;
+    border: 2px solid #5b13b9;
+    border-radius: 8px;
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: border-color 0.3s ease;
+  }
+
+  select:focus {
+    border-color: #7d2ae8;
+  }
+
+  .send-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #5b13b9;
+    color: white;
+    padding: 10px 20px;
+    border: 2px solid #5b13b9;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .send-btn:hover {
+    background-color: #7d2ae8;
+    color: white;
+  }
+
+  .back-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #5b13b9;
+    font-weight: 600;
+    font-size: 15px;
+    border: 2px solid #5b13b9;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .back-btn i {
+    margin-right: 8px;
+  }
+
+  .back-btn:hover {
+    background-color: #5b13b9;
+    color: white;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+{% endblock %}

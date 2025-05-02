@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="result-container">
+
+  {% if result == "Mask" %}
+    <h2 class="safe-heading">😷 Mask Detected</h2>
+    <p>Thank you for wearing a mask and following safety rules.</p>
+    <button class="voice-btn" onclick="playVoice('Thank you for wearing a mask and following safety rules.')">
+      ▶️ Play Voice Alert
+    </button>
+
+  {% elif result == "No Mask" %}
+    <h2 class="alert-heading">No Mask Detected!</h2>
+    <p>Select a voice alert from the list below and press Play:</p>
+
+    <label for="alert_message" class="dropdown-label">Select a Voice Alert:</label>
+    <select name="alert_message" id="alert_message" class="alert-dropdown" required>
+      <option value="Please wear your mask correctly for your safety.">Please wear your mask correctly for your safety.</option>
+      <option value="Mask not detected. Please follow safety guidelines.">Mask not detected. Please follow safety guidelines.</option>
+      <option value="Attention: COVID-19 precautions are mandatory. Wear a mask at all times.">Attention: COVID-19 precautions are mandatory. Wear a mask at all times.</option>
+      <option value="Health Alert: Flu cases are rising in this area. Please wear your mask.">Health Alert: Flu cases are rising in this area. Please wear your mask.</option>
+      <option value="Notice: This mall has reported virus cases. Wearing a mask is compulsory.">Notice: This mall has reported virus cases. Wearing a mask is compulsory.</option>
+      <option value="Safety Reminder: Hospital zone. Masks must be worn at all times.">Safety Reminder: Hospital zone. Masks must be worn at all times.</option>
+      <option value="Caution: Infection hotspot detected nearby. Please wear your mask.">Caution: Infection hotspot detected nearby. Please wear your mask.</option>
+      <option value="Public Safety Announcement: Masks are required in this building.">Public Safety Announcement: Masks are required in this building.</option>
+    </select>
+
+    <button class="voice-btn" onclick="playSelectedVoice()">▶️ Play Voice Alert</button>
+
+  {% elif result == "No Face" %}
+    <h2 class="info-heading">😐 No Face Detected</h2>
+    <p>Please ensure your face is visible and try again.</p>
+    <button class="voice-btn" onclick="playVoice('Face not detected. Please align your face to capture.')">
+      ▶️ Play Voice Alert
+    </button>
+  {% endif %}
+
+  {% if confidence %}
+    <p><strong>Confidence:</strong> {{ confidence }}</p>
+  {% endif %}
+
+  {% if image_path %}
+    <img src="{{ image_path }}" class="alert-image" alt="Captured Image">
+  {% endif %}
+
+  <a href="{{ url_for('voice_alert') }}" class="btn-back">← Back</a>
+</div>
+
+<script>
+function playVoice(message) {
+    let synth = window.speechSynthesis;
+    let utterThis = new SpeechSynthesisUtterance(message);
+    synth.speak(utterThis);
+}
+
+function playSelectedVoice() {
+    let selected = document.getElementById("alert_message").value;
+    playVoice(selected);
+}
+</script>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url('{{ url_for("static", filename="images/bg-login.png") }}');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .result-container {
+    text-align: center;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    max-width: 600px;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  .alert-heading, .safe-heading, .info-heading {
+    font-size: 26px;
+    color: #5b13b9;
+    margin-bottom: 15px;
+  }
+
+  .alert-dropdown {
+    padding: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+    width: 90%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  .dropdown-label {
+    font-weight: 600;
+    margin-top: 20px;
+    display: block;
+    color: #5b13b9;
+  }
+
+  .voice-btn {
+    background-color: #5b13b9;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+  }
+
+  .voice-btn:hover {
+    background-color: #7d2ae8;
+  }
+
+  .alert-image {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-top: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+
+  .btn-back {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #5b13b9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-back:hover {
+    background-color: #7d2ae8;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}

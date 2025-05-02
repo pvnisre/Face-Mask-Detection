@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+  <!-- INTRO SECTION -->
+  <div class="intro">
+    <h1>Welcome, {{ username }}!</h1>
+    <p class="tagline">
+      A smarter way to ensure mask safety.<br>
+      Access detection, classification, and alerts — anytime, anywhere.
+    </p>
+    
+
+    <div class="docs">
+      <a href="{{ url_for('static', filename='docs/Presentation.pptx') }}" target="_blank" class="doc-btn">
+        <i class="fas fa-file-powerpoint"></i> Presentation
+      </a>
+      <a href="{{ url_for('static', filename='docs/Documentation.pdf') }}" target="_blank" class="doc-btn">
+        <i class="fas fa-file-pdf"></i> Documentation
+      </a>
+    </div>
+  </div>
+
+  <!-- APP LAUNCH SECTION -->
+  <div class="app-grid">
+    <!-- Row 1 -->
+    <a href="{{ url_for('image_detection') }}" class="app-card">
+      <i class="fas fa-image"></i>
+      <span>Image Detection</span>
+    </a>
+    <a href="{{ url_for('live_webcam') }}" class="app-card" target="_blank">
+      <i class="fas fa-video"></i>
+      <span>Live Webcam</span>
+    </a>
+    <a href="{{ url_for('whatsapp_alert') }}" class="app-card">
+      <i class="fab fa-whatsapp"></i>
+      <span>WhatsApp Alert</span>
+    </a>
+  
+    <!-- Row 2 -->
+    <a href="{{ url_for('voice_alert') }}" class="app-card">
+      <i class="fas fa-volume-up"></i>
+      <span>Voice Alert  </span>
+    </a>
+    <a href="{{ url_for('select_location') }}" class="app-card">
+      <i class="fas fa-map"></i>
+      <span>GeoTag Heatmap</span>
+    </a>    
+    <a href="{{ url_for('compliance_tracker') }}" class="app-card">
+      <i class="fas fa-chart-line"></i>
+      <span>Compliance Tracker </span>
+    </a>
+  </div>
+
+  <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+</div>
+
+<style>
+  .tagline {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .dashboard-container {
+    max-width: 550px;
+    margin: 40px auto;
+    padding: 20px 30px 20px 30px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .intro h1 {
+    color: #5b13b9;
+    font-size: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .intro p {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .docs {
+    text-align: center;
+    margin-bottom: 35px;
+  
+  }
+
+  .doc-btn {
+    display: inline-block;
+    margin: 10px 15px;
+    background: #dab6ff;
+    color: #5b13b9;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+
+  .doc-btn i {
+    margin-right: 8px;
+  }
+
+  .doc-btn:hover {
+    background: #e5ccff;
+    color: #4a0d99;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-items: center;
+    margin-top: 20px;
+  }
+
+  .app-card {
+    background: #f3d1ff;
+    padding: 25px;
+    text-align: center;
+    border-radius: 12px;
+    color: #5b13b9;
+    text-decoration: none;
+    transition: transform 0.3s, background 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .app-card i {
+    font-size: 38px;
+    margin-bottom: 10px;
+  }
+
+  .app-card span {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .app-card:hover {
+    background: #dab6ff;
+    transform: translateY(-6px);
+  }
+
+  .logout {
+    display: block;
+    text-align: center;
+    margin-top: 17px;
+    color: #7d2ae8;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .logout:hover {
+    text-decoration: underline;
+  }
+
+  body {
+    background-image: url('{{ url_for("static", filename="images/bg-login.png") }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    font-family: 'Poppins', sans-serif;
+  }
+</style>
+{% endblock %}

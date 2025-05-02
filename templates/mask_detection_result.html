@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mask Detection Result</title>
+</head>
+<body>
+    <h2>Detection Result: {{ label }}</h2>
+    {% if image_path %}
+        <img src="{{ url_for('static', filename=image_path.split('static/')[-1]) }}" alt="Detected Image" style="max-width: 600px;">
+    {% else %}
+        <p>No image captured.</p>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

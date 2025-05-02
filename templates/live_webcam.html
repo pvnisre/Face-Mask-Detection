@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Live Webcam | Mask Detection{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <div class="intro">
+    <h1>Live Webcam Detection</h1>
+    <p class="tagline">
+      Detects mask usage in real-time using your device’s webcam.<br>
+      Stay safe in every frame!
+    </p>
+
+    <div class="video-container">
+      <img src="{{ url_for('video_feed') }}" alt="Live Video Feed" class="live-feed">
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+</div>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    background-image: url('{{ url_for("static", filename="images/bg-login.png") }}');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .dashboard-container {
+    text-align: center;
+    padding: 50px 40px;
+    background-color: rgba(255, 255, 255, 0.7);
+    margin: 60px auto;
+    max-width: 700px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .intro h1 {
+    color: #5b13b9;
+    font-size: 40px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .tagline {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 520;
+    color: #444;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+
+  .video-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .live-feed {
+    width: 100%;
+    max-width: 640px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(91, 19, 185, 0.3);
+    margin-bottom: 25px;
+  }
+
+  .back-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #5b13b9;
+    font-weight: 600;
+    font-size: 15px;
+    border: 2px solid #5b13b9;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .back-btn:hover {
+    background-color: #5b13b9;
+    color: white;
+  }
+</style>
+{% endblock %}

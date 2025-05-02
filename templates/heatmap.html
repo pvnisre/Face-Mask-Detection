@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="result-container">
+  <h2 class="safe-heading">🗺️ Mask Violation Heatmap</h2>
+  <p>Visualize real-time mask violation reports across locations.</p>
+
+  <div id="map" style="height: 500px; margin-top:20px; border-radius:12px; overflow:hidden;"></div>
+
+  <a href="{{ url_for('dashboard') }}" class="btn-back">← Back to Dashboard</a>
+</div>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url('{{ url_for("static", filename="images/bg-login.png") }}');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .result-container {
+    text-align: center;
+    padding: 40px;
+    font-family: 'Poppins', sans-serif;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    max-width: 700px;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  .safe-heading {
+    font-size: 26px;
+    color: #5b13b9;
+    margin-bottom: 15px;
+  }
+
+  .btn-back {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #5b13b9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-back:hover {
+    background-color: #7d2ae8;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<!-- Leaflet Map and Heat Layer -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+<script>
+  // Initialize the map
+  var map = L.map('map').setView([13.628, 79.419], 12);  // Default center (Tirupati area)
+
+  // Add OpenStreetMap tile layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18
+  }).addTo(map);
+
+  // Fetch mask violations JSON file
+  fetch("{{ url_for('static', filename='logs/mask_violations.json') }}")
+      .then(response => response.json())
+      .then(data => {
+          var heatPoints = data.map(item => {
+              // Using a higher weight for visibility
+              var weight = item.weight || 0.5;  // Default weight to 0.5 if not provided
+              return [item.latitude, item.longitude, weight];
+          });
+          
+          // Add heat layer to map
+          L.heatLayer(heatPoints, {
+              radius: 30,      // Increased radius for better visibility
+              blur: 20,        // Adjusted blur
+              maxZoom: 17,     // Max zoom level
+              gradient: {
+                  0.0: 'green',  // Low weight (no violation)
+                  0.5: 'yellow', // Medium weight
+                  1.0: 'red'     // High weight (more violations)
+              }
+          }).addTo(map);
+      })
+      .catch(err => console.error('Error loading heatmap data:', err));
+</script>
+{% endblock %}
