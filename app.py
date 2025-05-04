@@ -160,7 +160,6 @@ def logout():
     return redirect(url_for('login'))
 
 
-# 🟪 Step 1: WhatsApp Alert Page UI
 @app.route('/whatsapp_alert')
 def whatsapp_alert():
     if 'user' not in session:
@@ -168,7 +167,6 @@ def whatsapp_alert():
     return render_template('whatsapp_alert.html')
 
 
-# 🧠 Step 2: Run detection and save result to session (but DON'T send alert yet)
 @app.route('/run_whatsapp_detection', methods=['POST'])
 def run_whatsapp_detection():
     if 'user' not in session:
@@ -184,7 +182,7 @@ def run_whatsapp_detection():
 
     return redirect(url_for('whatsapp_result'))
 
-# 🖼️ Step 3: Display result (with image, confidence, and WhatsApp alert button)
+
 @app.route('/whatsapp_result')
 def whatsapp_result():
     if 'user' not in session:
@@ -197,13 +195,13 @@ def whatsapp_result():
         confidence=session.get("last_confidence", "")
     )
 
-# ✅ Step 4: Only send WhatsApp alert when user clicks button (ONE time)
+
 @app.route("/send_whatsapp_alert")
 def send_whatsapp_alert():
     if 'user' not in session:
         return redirect(url_for('login'))
 
-    # ⬇️ Safe import with fallback if no internet
+    
     try:
         import pywhatkit
     except:
@@ -213,7 +211,7 @@ def send_whatsapp_alert():
     image_path = session.get("last_image_path", "").lstrip("/")
     full_path = os.path.join(os.getcwd(), image_path)
 
-    # 🟩 Only send if not already sent & image exists
+ 
     if not session.get("whatsapp_sent") and os.path.exists(full_path):
         if pywhatkit:
             try:
@@ -233,7 +231,7 @@ def send_whatsapp_alert():
     return redirect(url_for("whatsapp_alert_result"))
 
 
-# 🏁 Step 5: Final result view (after alert sent)
+
 @app.route("/whatsapp_alert_result")
 def whatsapp_alert_result():
     if 'user' not in session:
@@ -546,9 +544,7 @@ def run_mask_detection(image_path):
     output_path, latitude, longitude, results = detect_mask_image_with_geo(image_path)
     return output_path, latitude, longitude, results
 
-# 🔊 Voice Alert Routes
 
-# 🟪 Step 1: Show Voice Alert Detection UI Page
 @app.route('/voice_alert')
 def voice_alert():
     if 'user' not in session:
@@ -556,7 +552,7 @@ def voice_alert():
     return render_template('voice_alert.html')
 
 
-# 🧠 Step 2: Handle Detection Logic and Save Results in Session
+# Step 2: Handle Detection Logic and Save Results in Session
 @app.route('/run_voice_detection', methods=['POST'])
 def run_voice_detection():
     if 'user' not in session:
@@ -576,7 +572,7 @@ def run_voice_detection():
     return redirect(url_for('voice_result'))
 
 
-# 🖼️ Step 3: Show Result Page with Voice Alert Options and Captured Image
+# Step 3: Show Result Page with Voice Alert Options and Captured Image
 @app.route('/voice_result')
 def voice_result():
     if 'user' not in session:
