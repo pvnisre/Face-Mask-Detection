@@ -216,7 +216,7 @@ def send_whatsapp_alert():
         if pywhatkit:
             try:
                 pywhatkit.sendwhats_image(
-                    receiver="+917032758227",
+                    receiver="+919876543210",
                     img_path=full_path,
                     caption="🚨😷 No mask detected! Here's a captured image 📸.",
                     wait_time=30,
@@ -319,7 +319,6 @@ def detect_mask():
 
     # Define location coordinates
     location_coords = {
-        "Home": (13.617646090683694, 79.42779968436822),
         "Zudio": (13.614120809262024, 79.41638060959853),
         "SV University": (13.628916018115785, 79.39783745314385),
         "CMR Shopping": (13.636998051667492, 79.41984189347363),
